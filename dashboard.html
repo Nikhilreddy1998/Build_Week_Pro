@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Status Tracking</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .dashboard-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+
+        .status-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+            display: block;
+        }
+
+        /* Progress Bar Styles */
+        .progress-bar-container {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background-color: #4CAF50; /* Default green */
+            height: 100%;
+            width: 0%; /* Initial width */
+            border-radius: 5px;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-size: 0.8em;
+            transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        .progress-bar.submitted {
+            width: 25%;
+            background-color: #2196F3; /* Blue */
+        }
+
+        .progress-bar.under-review {
+            width: 50%;
+            background-color: #FF9800; /* Orange */
+        }
+
+        .progress-bar.approved {
+            width: 100%;
+            background-color: #4CAF50; /* Green */
+        }
+
+        .progress-bar.denied {
+            width: 100%;
+            background-color: #F44336; /* Red */
+        }
+
+        /* Document Status Styles */
+        .document-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            color: white;
+        }
+
+        .pending-review {
+            background-color: #FFC107; /* Amber */
+        }
+
+        .doc-approved {
+            background-color: #4CAF50; /* Green */
+        }
+
+        .requires-resubmission {
+            background-color: #F44336; /* Red */
+        }
+
+        /* Notification Styles (Conceptual - Real-time would require JavaScript) */
+        .notification-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #e6f7ff;
+        }
+
+        .notification-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-message {
+            font-size: 0.9em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Loan Application Status</h2>
+
+        <div class="status-item">
+            <span class="status-label">Application #12345</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar submitted" id="loan12345-progress">Submitted</div>
+            </div>
+            <div class="document-status">
+                <span>Document 1:</span>
+                <span class="status-badge pending-review">Pending Review</span>
+            </div>
+            <div class="document-status">
+                <span>Document 2:</span>
+                <span class="status-badge doc-approved">Approved</span>
+            </div>
+        </div>
+
+        <div class="status-item">
+            <span class="status-label">Application #67890</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar under-review" id="loan67890-progress">Under Review</div>
+            </div>
+            <div class="document-status">
+                <span>Document 1:</span>
+                <span class="status-badge doc-approved">Approved</span>
+            </div>
+            <div class="document-status">
+                <span>Document 2:</span>
+                <span class="status-badge requires-resubmission">Requires Resubmission</span>
+            </div>
+        </div>
+
+        <div class="status-item">
+            <span class="status-label">Application #13579</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar approved" id="loan13579-progress">Approved</div>
+            </div>
+            <div class="document-status">
+                <span>Document 1:</span>
+                <span class="status-badge doc-approved">Approved</span>
+            </div>
+            <div class="document-status">
+                <span>Document 2:</span>
+                <span class="status-badge doc-approved">Approved</span>
+            </div>
+        </div>
+
+        <div class="status-item">
+            <span class="status-label">Application #24680</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar denied" id="loan24680-progress">Denied</div>
+            </div>
+            <div class="document-status">
+                <span>Document 1:</span>
+                <span class="status-badge doc-approved">Approved</span>
+            </div>
+            <div class="document-status">
+                <span>Document 2:</span>
+                <span class="status-badge doc-approved">Approved</span>
+            </div>
+        </div>
+
+        <div class="notification-container">
+            <h3>Notifications</h3>
+            <div class="notification-item">
+                <span class="notification-message">Application #12345 status updated to: Submitted</span>
+            </div>
+            <div class="notification-item">
+                <span class="notification-message">Document 2 for Application #67890 requires resubmission.</span>
+            </div>
+            <div class="notification-item">
+                <span class="notification-message">Application #13579 has been Approved!</span>
+            </div>
+        </div>
+    </div>
+
+    </body>
+</html>
